@@ -147,7 +147,7 @@ add a `<template class="file">...</template>` to the light DOM:
       <paper-button id="addFiles" on-tap="_onAddFilesClick">Add File(s)</paper-button>
       <paper-button id="cancelAll" on-tap="_onCancelAllClick" hidden$="[[!cancelAll]]">Cancel all</paper-button>
     </div>
-    <input type="file" id="fileInput" on-change="_onFileInputChange" hidden multiple$="[[_isMultiple()]]" accept="{{accept}}">
+    <input type="file" id="fileInput" on-change="_onFileInputChange" hidden accept="{{accept}}">
   </template>
 </dom-module>
 
@@ -467,14 +467,17 @@ add a `<template class="file">...</template>` to the light DOM:
      */
     _addFile: function(file) {
       if (this.maxFiles && this.files.length >= this.maxFiles) {
+        this.fire('file-rejected', {file: file, error: 'Too many files.'});
         return;
       }
       if (this.maxFileSize && file.size > this.maxFileSize) {
+        this.fire('file-rejected', {file: file, error: 'File too big.'});
         return;
       }
       var mimeType = file.type ? file.type.match(/^[^\/]*\//)[0] : null;
       var fileType = file.name.match(/\.[^\.]*$|$/)[0];
       if (this.accept && !(this.accept.indexOf(mimeType) > -1 || this.accept.indexOf(fileType) > -1)) {
+        this.fire('file-rejected', {file: file, error: 'Incorrect file type.'});
         return;
       }
       file.loaded = 0;
@@ -496,6 +499,7 @@ add a `<template class="file">...</template>` to the light DOM:
 
     _onAddFilesClick: function(event) {
       if (document.createEvent) {
+        this.$.fileInput.multiple = !this.noMultiple && this.maxFiles != 1;
         var ev = document.createEvent('MouseEvents');
         ev.initEvent('click', true, false);
         this.$.fileInput.dispatchEvent(ev);
@@ -528,6 +532,15 @@ add a `<template class="file">...</template>` to the light DOM:
     }
 
   });
+  /**
+   * Fired when a file cannot be added to the queue due to a constrain:
+   *  file-size, file-type or maxFiles
+   *
+   * @event file-rejected
+   * @param {Object} detail
+   *  @param {Object} detail.file the file added
+   *  @param {Object} detail.error the cause
+   */
   /**
    * Fired when a file is added for uploading.
    *
