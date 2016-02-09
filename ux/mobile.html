@@ -1,0 +1,82 @@
+<!doctype html>
+
+<head>
+  <title>vaadin-upload Code Examples</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../paper-styles/default-theme.html">
+  <link rel="import" href="../vaadin-upload.html">
+  <link rel="import" href="../../paper-toast/paper-toast.html">
+
+  <link rel="stylesheet" href="../../elements-demo-resources/demo.css">
+
+  <!-- <script src="../../mock-http-request/lib/mock.js"></script> -->
+
+  <!-- Common styles for all examples -->
+  <style is="custom-style">
+    :root {
+      --primary-color: #03A9F4;
+      --error-color: #f40303;
+    }
+    .desc {
+       margin-top: 50px;
+       color: #5B4EAC;
+       text-transform: uppercase;
+    }
+    .label {
+       margin-top: 20px;
+       color: #03A9F4;
+       text-transform: capitalize;
+       border-bottom: solid 2px #03A9F4;
+    }
+    .dim {
+       color: #AAA1A1;
+    }
+  </style>
+
+</head>
+<body>
+
+  <paper-toast id="toast" text=""></paper-toast>
+
+
+  <h3 class="dim">Scenario 1: Single file upload using the “Add files” button (mobile)</h3>
+  <ul class="dim">
+    <li>Add files Button
+    <li>Detailed information what's happening
+    <li>Connecting with server
+    <li>Progress Bar and Info (%, ETA, bps)
+    <li>Server processing
+  </ul>
+
+  <div class="desc">Select one .pdf file to share from your device library</div>
+  <div class="label">Attachment file</div>
+  <vaadin-upload
+    target="http://hupa.app.fi/upload/servlet.gupld"
+    nodrop max-files=1 accept=".pdf"></vaadin-upload>
+
+
+  <script>
+  var toast = document.getElementById('toast');
+  var uploads = document.querySelectorAll('vaadin-upload');
+  [].forEach.call(uploads, function(upload) {
+    upload.addEventListener('file-rejected', function(e) {
+      toast.text = e.detail.error;
+      toast.open();
+    });
+    upload.addEventListener('file-add', function(e) {
+      console.log(e.detail.file);
+    });
+    upload.addEventListener('upload-progress', function(e) {
+      console.log(e.detail.file.progress);
+    });
+    upload.addEventListener('upload-success', function(e) {
+      console.log(e.detail.xhr.responseText);
+    });
+  });
+  </script>
+
+</body>
+</html>
