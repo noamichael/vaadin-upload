@@ -6,9 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
+  <link rel="import" href="../../paper-styles/typography.html">
   <link rel="import" href="../../paper-styles/default-theme.html">
-  <link rel="import" href="../vaadin-upload.html">
+  <link rel="import" href="../../paper-material/paper-material.html">
+  <link rel="import" href="../../paper-input/paper-input.html">
+  <link rel="import" href="../../paper-input/paper-textarea.html">
+  <link rel="import" href="../../paper-button/paper-button.html">
   <link rel="import" href="../../paper-toast/paper-toast.html">
+  <link rel="import" href="../vaadin-upload.html">
 
   <link rel="stylesheet" href="../../elements-demo-resources/demo.css">
 
@@ -21,20 +26,81 @@
       --light-primary-color: #7CD8F7;
       --dark-primary-color: #0078A0;
       --error-color: #E61E6E;
+
+      --paper-input-container-color: var(--divider-color, #e0e0e0);
     }
+
+    h2 {
+      font-size: 24px;
+      line-height: 32px;
+      margin: 48px 0 8px;
+    }
+
+    ul, ol {
+      padding-left: 1.25em;
+    }
+
+    body {
+      font-family: 'Roboto', 'Noto', sans-serif;
+      font-size: 14px;
+      line-height: 24px;
+      margin: 0 auto;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .scenario {
+      margin: 16px 0;
+    }
+
+    paper-material {
+      background: #fff;
+      color: var(--primary-text-color);
+      padding: 16px 16px 12px;
+      border-radius: 3px;
+    }
+
+    .title {
+      font-size: 24px;
+      line-height: 32px;
+      margin: 0 0 8px;
+    }
+
+    .material-section {
+      margin: 0 -16px -16px;
+      /* border-top: 1px solid var(--divider-color, #e0e0e0); */
+      padding: 16px;
+    }
+
     .desc {
-       margin-top: 50px;
-       color: #5B4EAC;
-       text-transform: uppercase;
+      margin: 0 0 8px;
     }
+
     .label {
-       margin-top: 20px;
-       color: #03A9F4;
-       text-transform: capitalize;
-       border-bottom: solid 2px #03A9F4;
+      font-size: 16px;
+      text-transform: capitalize;
+      margin: 0 0 8px;
     }
     .dim {
-       color: #AAA1A1;
+      color: var(--secondary-text-color);
+    }
+
+
+    .buttons {
+      text-align: right;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    paper-button {
+      @apply(--paper-font-button);
+      color: var(--primary-color, #00B4F0);
+      padding: .43em .57em;
+    }
+
+    paper-button[type="submit"] {
+      background-color: var(--primary-color, #00B4F0);
+      color: #fff;
     }
   </style>
 
@@ -43,41 +109,80 @@
 
   <paper-toast id="toast" text=""></paper-toast>
 
+  <div class="scenario" id="s1">
+    <h2 class="dim">Scenario 1a: Single file upload using the “Add files” button (mobile)</h2>
+    <ul class="dim">
+      <li>Add files Button
+      <li>Detailed information what's happening
+      <li>Connecting with server
+      <li>Progress Bar and Info (%, ETA, bps)
+      <li>Server processing
+    </ul>
+  </div>
 
-  <h3 class="dim">Scenario 1: Single file upload using the “Add files” button (mobile)</h3>
-  <ul class="dim">
-    <li>Add files Button
-    <li>Detailed information what's happening
-    <li>Connecting with server
-    <li>Progress Bar and Info (%, ETA, bps)
-    <li>Server processing
-  </ul>
+  <paper-material elevation="1">
+    <div class="title">Share Document</div>
+    <paper-input label="Title"></paper-input>
+    <paper-textarea label="Description"></paper-textarea>
+    <div class="material-section">
+      <div class="label">Attachment file</div>
+      <div class="desc">Select one .pdf file to share from your device library</div>
+      <vaadin-upload
+          target="http://hupa.app.fi/upload/servlet.gupld"
+          nodrop max-files=1 accept=".pdf">
+      </vaadin-upload>
+    </div>
+    <div class="material-section buttons">
+      <paper-button type="cancel">Cancel</paper-button>
+      <paper-button raised type="submit">Share</paper-button>
+    </div>
+  </paper-material>
 
-  <div class="desc">Select one .pdf file to share from your device library</div>
-  <div class="label">Attachment file</div>
-  <vaadin-upload
-    target="http://hupa.app.fi/upload/servlet.gupld"
-    nodrop max-files=1 accept=".pdf"></vaadin-upload>
+  <div class="scenario" id="s1">
+    <h2 class="dim">Scenario 1b: Multiple files upload using the “Add files” button (mobile)</h2>
+    <ul class="dim">
+      <li>Adding multiple files with Add Files button
+    </ul>
+  </div>
 
+  <paper-material elevation="1">
+    <div class="title">New Document Group</div>
+    <paper-input label="Group Title"></paper-input>
+    <paper-textarea label="Group Description"></paper-textarea>
+    <div class="material-section">
+      <div class="label">Attachment Files</div>
+      <div class="desc">Select multiple files to share from your device library</div>
+      <vaadin-upload
+          target="http://hupa.app.fi/upload/servlet.gupld"
+          nodrop>
+      </vaadin-upload>
+    </div>
+    <div class="material-section buttons">
+      <paper-button type="cancel">Cancel</paper-button>
+      <paper-button raised type="submit">Add Group</paper-button>
+    </div>
+  </paper-material>
 
   <script>
-  var toast = document.getElementById('toast');
-  var uploads = document.querySelectorAll('vaadin-upload');
-  [].forEach.call(uploads, function(upload) {
-    upload.addEventListener('file-rejected', function(e) {
-      toast.text = e.detail.error;
-      toast.open();
+    document.addEventListener('WebComponentsReady', function() {
+      var toast = document.getElementById('toast');
+      var uploads = document.querySelectorAll('vaadin-upload');
+      [].forEach.call(uploads, function(upload) {
+        upload.addEventListener('file-rejected', function(e) {
+          toast.text = e.detail.error;
+          toast.open();
+        });
+        // upload.addEventListener('file-add', function(e) {
+        //   console.log(e.detail.file);
+        // });
+        // upload.addEventListener('upload-progress', function(e) {
+        //   console.log(e.detail.file.progress);
+        // });
+        // upload.addEventListener('upload-success', function(e) {
+        //   console.log(e.detail.xhr.responseText);
+        // });
+      });
     });
-    upload.addEventListener('file-add', function(e) {
-      console.log(e.detail.file);
-    });
-    upload.addEventListener('upload-progress', function(e) {
-      console.log(e.detail.file.progress);
-    });
-    upload.addEventListener('upload-success', function(e) {
-      console.log(e.detail.xhr.responseText);
-    });
-  });
   </script>
 
 </body>
