@@ -44,7 +44,6 @@ add a `<template class="file">...</template>` to the light DOM:
         @apply(--layout-vertical);
         display: block;
         position: relative;
-        padding: 16px;
         text-align: center;
       }
 
@@ -52,6 +51,7 @@ add a `<template class="file">...</template>` to the light DOM:
         border: 1px dashed;
         border-color: var(--divider-color,  #666);
         border-radius: 3px;
+        padding: 16px;
       }
 
       :host[dragover] {
@@ -231,13 +231,13 @@ add a `<template class="file">...</template>` to the light DOM:
        * Specifies whether the file selection popup is configured to select
        * multiple files.
        */
-       noMultiple: {
+       nomultiple: {
          type: Boolean,
          value: false
        },
       /**
        * Limit of files to upload, by default it is unlimited. If the value is
-       * one, noMultiple is true.
+       * one, nomultiple is true.
        */
        maxFiles: {
          type: Number,
@@ -471,7 +471,7 @@ add a `<template class="file">...</template>` to the light DOM:
         return;
       }
       if (this.maxFileSize && file.size > this.maxFileSize) {
-        this.fire('file-rejected', {file: file, error: 'File too big.'});
+        this.fire('file-rejected', {file: file, error: 'File is too big.'});
         return;
       }
       var mimeType = file.type ? file.type.match(/^[^\/]*\//)[0] : null;
@@ -499,7 +499,7 @@ add a `<template class="file">...</template>` to the light DOM:
 
     _onAddFilesClick: function(event) {
       if (document.createEvent) {
-        this.$.fileInput.multiple = !this.noMultiple && this.maxFiles != 1;
+        this.$.fileInput.multiple = !this.nomultiple && this.maxFiles != 1;
         var ev = document.createEvent('MouseEvents');
         ev.initEvent('click', true, false);
         this.$.fileInput.dispatchEvent(ev);
