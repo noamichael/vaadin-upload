@@ -238,7 +238,8 @@ add a `<template class="file">...</template>` to the light DOM:
        * Syntax: file_extension|audio/*|video/*|image/*|media_type
        */
       accept: {
-        type: String
+        type: String,
+        value: ''
       },
       /**
        * Specifies the maximum file size allowed to upload. Default is
@@ -337,7 +338,7 @@ add a `<template class="file">...</template>` to the light DOM:
         event.preventDefault();
         this._dragRippleAction('up', event);
         this.dragover = false;
-        Array.prototype.forEach.call(event.dataTransfer.files, this._addFile.bind(this));
+        this._addFiles(event.dataTransfer.files);
       }
     },
 
@@ -414,7 +415,7 @@ add a `<template class="file">...</template>` to the light DOM:
           file.indeterminate = file.uploading = false;
           file.status = '';
           if (file.abort) {
-            file.error = file.complete = file.progress = false;
+            file.error = file.complete = file.progress = file.status = false;
             this._notifyFileChanges(file);
             return;
           }
@@ -492,6 +493,10 @@ add a `<template class="file">...</template>` to the light DOM:
       }
     },
 
+    _addFiles: function(files) {
+      Array.prototype.forEach.call(files, this._addFile.bind(this));
+    },
+
     /**
      * Add the file for uploading. Called internally for each file after picking files from dialog or dropping files.
      *
@@ -508,7 +513,8 @@ add a `<template class="file">...</template>` to the light DOM:
       }
       var mimeType = file.type ? file.type.match(/^[^\/]*\//)[0] : null;
       var fileType = file.name.match(/\.[^\.]*$|$/)[0];
-      if (this.accept && !(this.accept.indexOf(mimeType) > -1 || this.accept.indexOf(fileType) > -1)) {
+      var re = new RegExp('^(' + this.accept.replace(/[, ]+/g, '|').replace('/*', '/.*') + ')$');
+      if (this.accept && !(re.test(mimeType) || re.test(fileType))) {
         this.fire('file-rejected', {file: file, error: 'Incorrect file type.'});
         return;
       }
@@ -532,15 +538,15 @@ add a `<template class="file">...</template>` to the light DOM:
     _onAddFilesClick: function(event) {
       if (document.createEvent) {
         this.$.fileInput.multiple = !this.nomultiple && this.maxFiles != 1;
+        this.$.fileInput.value = '';
         var ev = document.createEvent('MouseEvents');
         ev.initEvent('click', true, false);
         this.$.fileInput.dispatchEvent(ev);
-        this.$.fileInput.value = '';
       }
     },
 
     _onFileInputChange: function(event) {
-      Array.prototype.forEach.call(event.target.files, this._addFile.bind(this));
+      this._addFiles(event.target.files);
     },
 
     _templatizeFileList: function() {
