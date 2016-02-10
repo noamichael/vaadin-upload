@@ -56,7 +56,7 @@
     paper-material {
       background: #fff;
       color: var(--primary-text-color);
-      padding: 24px 24px 20px;
+      padding: 24px;
       border-radius: 3px;
     }
 
@@ -70,6 +70,10 @@
       margin: 0 -24px -24px;
       /* border-top: 1px solid var(--divider-color, #e0e0e0); */
       padding: 24px;
+    }
+
+    .material-section:first-child {
+      margin-top: -24px;
     }
 
     .desc {
@@ -111,17 +115,17 @@
 
   <div class="scenario" id="s2">
     <h2 class="dim">Scenario 2: Multiple file upload using the drop area (desktop)</h2>
-    <ul class="dim">
-      <li>Drop area
-      <li>Multiple Upload
-      <li>Add files to Queue
-    </ul>
+    <!-- <ul class="dim"> -->
+    <!--   <li>Drop area -->
+    <!--   <li>Multiple Upload -->
+    <!--   <li>Add files to Queue -->
+    <!-- </ul> -->
   </div>
 
   <paper-material elevation="1">
-    <div class="title">New Expense</div>
-    <paper-input label="Amount" type="number"><div suffix> €</div></paper-input>
-    <paper-textarea label="Description"></paper-textarea>
+    <!-- <div class="title">New Expense</div> -->
+    <!-- <paper&#45;input label="Amount" type="number"><div suffix> €</div></paper&#45;input> -->
+    <!-- <paper&#45;textarea label="Description"></paper&#45;textarea> -->
     <div class="material-section">
       <div class="label">Add Attachment Files</div>
       <div class="desc">Select expense files (pdf, image, spreadsheet) to upload to the server</div>
@@ -130,25 +134,25 @@
           accept=".pdf,.xls,.ods,image/*">
       </vaadin-upload>
     </div>
-    <div class="material-section buttons">
-      <paper-button type="cancel">Cancel</paper-button>
-      <paper-button raised type="submit">Add Expense</paper-button>
-    </div>
+    <!-- <div class="material&#45;section buttons"> -->
+    <!--   <paper&#45;button type="cancel">Cancel</paper&#45;button> -->
+    <!--   <paper&#45;button raised type="submit">Add Expense</paper&#45;button> -->
+    <!-- </div> -->
   </paper-material>
 
   <div class="scenario" id="s3">
     <h2 class="dim">Scenario 3: Cancel upload (desktop)</h2>
-    <ul class="dim">
-      <li>Remove files from Queue
-      <li>Abort Uploading (one/all item/s)
-      <li>Network disconnect reaction
-    </ul>
+    <!-- <ul class="dim"> -->
+    <!--   <li>Remove files from Queue -->
+    <!--   <li>Abort Uploading (one/all item/s) -->
+    <!--   <li>Network disconnect reaction -->
+    <!-- </ul> -->
   </div>
 
   <paper-material elevation="1">
-    <div class="title">New Expense</div>
-    <paper-input label="Amount" type="number"><div suffix> €</div></paper-input>
-    <paper-textarea label="Description"></paper-textarea>
+    <!-- <div class="title">New Expense</div> -->
+    <!-- <paper&#45;input label="Amount" type="number"><div suffix> €</div></paper&#45;input> -->
+    <!-- <paper&#45;textarea label="Description"></paper&#45;textarea> -->
     <div class="material-section">
       <div class="label">Add Attachment Files</div>
       <div class="desc">Select files to upload to the server and cancel them</div>
@@ -157,10 +161,10 @@
           target="http://hupa.app.fi/upload/servlet.gupld">
       </vaadin-upload>
     </div>
-    <div class="material-section buttons">
-      <paper-button type="cancel">Cancel</paper-button>
-      <paper-button raised type="submit">Add Expense</paper-button>
-    </div>
+    <!-- <div class="material&#45;section buttons"> -->
+    <!--   <paper&#45;button type="cancel">Cancel</paper&#45;button> -->
+    <!--   <paper&#45;button raised type="submit">Add Expense</paper&#45;button> -->
+    <!-- </div> -->
   </paper-material>
 
   <script>

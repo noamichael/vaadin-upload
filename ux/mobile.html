@@ -56,7 +56,7 @@
     paper-material {
       background: #fff;
       color: var(--primary-text-color);
-      padding: 16px 16px 12px;
+      padding: 16px;
       border-radius: 3px;
     }
 
@@ -70,6 +70,10 @@
       margin: 0 -16px -16px;
       /* border-top: 1px solid var(--divider-color, #e0e0e0); */
       padding: 16px;
+    }
+
+    .material-section:first-child {
+      margin-top: -16px;
     }
 
     .desc {
@@ -111,19 +115,19 @@
 
   <div class="scenario" id="s1">
     <h2 class="dim">Scenario 1a: Single file upload using the “Add files” button (mobile)</h2>
-    <ul class="dim">
-      <li>Add files Button
-      <li>Detailed information what's happening
-      <li>Connecting with server
-      <li>Progress Bar and Info (%, ETA, bps)
-      <li>Server processing
-    </ul>
+    <!-- <ul class="dim"> -->
+    <!--   <li>Add files Button -->
+    <!--   <li>Detailed information what's happening -->
+    <!--   <li>Connecting with server -->
+    <!--   <li>Progress Bar and Info (%, ETA, bps) -->
+    <!--   <li>Server processing -->
+    <!-- </ul> -->
   </div>
 
   <paper-material elevation="1">
-    <div class="title">Share Document</div>
-    <paper-input label="Title"></paper-input>
-    <paper-textarea label="Description"></paper-textarea>
+    <!-- <div class="title">Share Document</div> -->
+    <!-- <paper&#45;input label="Title"></paper&#45;input> -->
+    <!-- <paper&#45;textarea label="Description"></paper&#45;textarea> -->
     <div class="material-section">
       <div class="label">Attachment file</div>
       <div class="desc">Select one .pdf file to share from your device library</div>
@@ -132,23 +136,23 @@
           nodrop max-files=1 accept=".pdf">
       </vaadin-upload>
     </div>
-    <div class="material-section buttons">
-      <paper-button type="cancel">Cancel</paper-button>
-      <paper-button raised type="submit">Share</paper-button>
-    </div>
+    <!-- <div class="material&#45;section buttons"> -->
+    <!--   <paper&#45;button type="cancel">Cancel</paper&#45;button> -->
+    <!--   <paper&#45;button raised type="submit">Share</paper&#45;button> -->
+    <!-- </div> -->
   </paper-material>
 
   <div class="scenario" id="s1">
     <h2 class="dim">Scenario 1b: Multiple files upload using the “Add files” button (mobile)</h2>
-    <ul class="dim">
-      <li>Adding multiple files with Add Files button
-    </ul>
+    <!-- <ul class="dim"> -->
+    <!--   <li>Adding multiple files with Add Files button -->
+    <!-- </ul> -->
   </div>
 
   <paper-material elevation="1">
-    <div class="title">New Document Group</div>
-    <paper-input label="Group Title"></paper-input>
-    <paper-textarea label="Group Description"></paper-textarea>
+    <!-- <div class="title">New Document Group</div> -->
+    <!-- <paper&#45;input label="Group Title"></paper&#45;input> -->
+    <!-- <paper&#45;textarea label="Group Description"></paper&#45;textarea> -->
     <div class="material-section">
       <div class="label">Attachment Files</div>
       <div class="desc">Select multiple files to share from your device library</div>
@@ -157,10 +161,10 @@
           nodrop>
       </vaadin-upload>
     </div>
-    <div class="material-section buttons">
-      <paper-button type="cancel">Cancel</paper-button>
-      <paper-button raised type="submit">Add Group</paper-button>
-    </div>
+    <!-- <div class="material&#45;section buttons"> -->
+    <!--   <paper&#45;button type="cancel">Cancel</paper&#45;button> -->
+    <!--   <paper&#45;button raised type="submit">Add Group</paper&#45;button> -->
+    <!-- </div> -->
   </paper-material>
 
   <script>
