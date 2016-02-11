@@ -7,16 +7,45 @@ This program is available under Apache License Version 2.0, available at https:/
 <!--
 `<vaadin-upload-file>` element represents a file in the file list of `<vaadin-upload>`.
 
+<<<<<<< HEAD
+=======
+### Styling
+
+The following custom properties are available for styling the component.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--vaadin-upload-file`|Styles for the entire host element|`{}`
+`--vaadin-upload-file-row`|Styles for the file row|`{}`
+`--vaadin-upload-file-meta`|Styles for the info container|`{}`
+`--vaadin-upload-file-name`|Styles for the file name|`{}`
+`--vaadin-upload-file-status`|Styles for the file status label|`{}`
+`--vaadin-upload-file-error`|Styles for the file error label|`{}`
+`--vaadin-upload-file-commands`|Styles for the buttons container|`{}`
+`--vaadin-upload-file-progress`|Styles for the included paper-progress|`{}`
+`--vaadin-upload-file-progress-error`|Styles for the progress bar when error is set|`{}`
+`--vaadin-upload-file-progress-indeterminate`|Styles for the progress bar when indeterminate|`{}`
+`--vaadin-upload-file-progress-uploading-indeterminate`|Styles for the progress bar when uploading and indeterminate|`{}`
+`--vaadin-upload-file-progress-complete`|Styles for the progress when file is complete|`{}`
+
+>>>>>>> master-dev
 @element vaadin-upload-file
 @demo demo/
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<<<<<<< HEAD
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+=======
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
+>>>>>>> master-dev
 
 <dom-module id="vaadin-upload-file">
   <template>
@@ -31,15 +60,20 @@ This program is available under Apache License Version 2.0, available at https:/
       #row {
         @apply(--layout-horizontal);
         @apply(--layout-center);
-        @apply(--vaadin-upload-file-row);
         height: 36px;
+        @apply(--vaadin-upload-file-row);
       }
 
       #meta {
         @apply(--layout-vertical);
         @apply(--layout-flex);
         width: 1px;
+        color: var(--disabled-text-color, gray);
         @apply(--vaadin-upload-file-meta);
+      }
+
+      #meta[complete] {
+        color: var(--primary-text-color, #000);
       }
 
       #name,
@@ -77,6 +111,7 @@ This program is available under Apache License Version 2.0, available at https:/
       #commands [icon] {
         margin-left: -4px;
         margin-right: -4px;
+        color: var(--primary-text-color, #000);
       }
 
       #commands [icon="refresh"],
@@ -97,7 +132,6 @@ This program is available under Apache License Version 2.0, available at https:/
       paper-progress[error] {
         --paper-progress-container-color: var(--error-color, #f40303);
         --paper-progress-active-color: var(--error-color, #f40303);
-        --paper-progress-container-color: var(--error-color, #03A9F4);
         @apply(--vaadin-upload-file-progress-error);
       }
 
@@ -114,7 +148,7 @@ This program is available under Apache License Version 2.0, available at https:/
       }
 
       paper-progress[complete] {
-        --paper-progress-active-color: var(--disabled-text-color, gray);
+        /* --paper-progress-active-color: var(--light-primary-color, #7CD8F7); */
         @apply(--vaadin-upload-file-progress-complete);
       }
 
@@ -122,7 +156,7 @@ This program is available under Apache License Version 2.0, available at https:/
 
     <div id="row">
 
-      <div id="meta">
+      <div id="meta" complete$="[[file.complete]]">
         <div id="name">[[file.name]]</div>
         <div id="status" hidden$="[[!file.status]]">[[file.status]]</div>
         <div id="error" hidden$="[[!file.error]]">[[file.error]]</div>
@@ -185,6 +219,10 @@ This program is available under Apache License Version 2.0, available at https:/
      * @param {Object} detail
      *  @param {Object} detail.file file to retry upload of
      */
+<<<<<<< HEAD
+=======
+
+>>>>>>> master-dev
     /**
      * Fired when abort button pressed. Listened by `vaadin-upload`. Fire this
      * event if you want to abort the file upload and remove the file from the
