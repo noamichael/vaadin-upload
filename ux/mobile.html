@@ -172,7 +172,7 @@
       var toast = document.getElementById('toast');
       var uploads = document.querySelectorAll('vaadin-upload');
       [].forEach.call(uploads, function(upload) {
-        upload.addEventListener('file-rejected', function(e) {
+        upload.addEventListener('file-reject', function(e) {
           toast.text = e.detail.error;
           toast.open();
         });
