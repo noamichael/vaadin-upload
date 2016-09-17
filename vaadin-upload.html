@@ -299,7 +299,14 @@ Custom property | Description | Default
         type: Number,
         value: Infinity
       },
-
+      /**
+       * When true, this attribute specifies that file uploads should not
+       * occur immediately after they are selected (the default behavior)
+       */
+      manualUploadStart: {
+        type: Boolean,
+        value: false
+      },
       /**
        * Specifies if the dragover is validated with maxFiles and
        * accept properties.
@@ -412,6 +419,35 @@ Custom property | Description | Default
       'file-abort': '_onFileAbort',
       'file-remove': '_onFileRemove',
     },
+
+    ////
+    // Public API functions
+    ////
+
+    /**
+     * Uploads all the files currently queued
+     * @param options          - Settings for the upload request
+     * @param options.formData - Additional formData fields to pass
+     * @param options.complete - A complete callback
+     */
+    uploadFiles: function(options) {
+      var requestCount = this.files.length;
+      this.files.forEach(function(file){
+        this._uploadFile(file, {
+          complete: function(){
+            requestCount--;
+            options.uploadedFile && options.uploadedFile(file);
+            if(requestCount <= 0){
+              options.complete && options.complete(this.files);
+            }
+          }
+        });
+      });
+    },
+
+    ////
+    // Private functions
+    ////
 
     _formatSize: function(bytes) {
       if (typeof this.i18n.formatSize === 'function') {
@@ -581,10 +617,12 @@ Custom property | Description | Default
       file.status = this._formatFileProgress(file);
     },
 
-    _uploadFile: function(file) {
+    _uploadFile: function(file, options) {
       if (file.uploading) {
         return;
       }
+
+      options = options || {};
 
       var ini = Date.now();
       var xhr = file.xhr = this._createXhr(file);
@@ -619,6 +657,7 @@ Custom property | Description | Default
 
         this._notifyFileChanges(file);
         this.fire('upload-progress', {file: file, xhr: xhr});
+        options.progress && options.progress(file, loaded);
       }.bind(this);
 
       // More reliable than xhr.onload
@@ -648,6 +687,7 @@ Custom property | Description | Default
           file.complete = !file.error;
           this.fire('upload-' + (file.error ? 'error' : 'success'), {file: file, xhr: xhr});
           this._notifyFileChanges(file);
+          options.complete && options.complete(file);
         }
       }.bind(this);
 
@@ -733,7 +773,9 @@ Custom property | Description | Default
       }
       file.loaded = 0;
       this.unshift('files', file);
-      this._uploadFile(file);
+      if(!this.manualUploadStart) {
+        this._uploadFile(file);
+      }
     },
 
     /**
